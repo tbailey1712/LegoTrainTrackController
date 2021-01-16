@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../usps"
+		},
+		{
+			"name": "Thermometer",
+			"path": "../Thermometer/Thermometer"
+		},
+		{
+			"name": "Lego Train Control",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

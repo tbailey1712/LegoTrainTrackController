@@ -18,6 +18,11 @@
  *  - Logging
  *  - Device Disco + Fail 0x20
  *  - Wifi connect and Time sync
+ *  - Switch sets gate direction
+ *  - Switch forces gates down
+ *  - Header icons for WiFi and <-o->
+ *  - DX Sensor State filled circle
+ *  - gates on a thread
  * */
 
 /*******  GPIO Pin Definitions *******/
@@ -90,29 +95,44 @@ void setup() {
 
 void loop() {
   
-  devices.showWarningLights();
+  devices.checkWarningLights();
+  devices.checkGates();
+  devices.readDXSensors();
   
+  if ( devices.isTripped(1) ) 
+  {
+    devices.enableWarningLights(true);
+    devices.gatesDown();
+
+    if (devices.areGatesDown())
+    {
+      devices.setTS1(LOW, LOW, HIGH);
+      devices.setTS2(LOW, LOW, HIGH);
+    }
+  } 
+  else 
+  {
+    devices.setTS1(HIGH, LOW, LOW);
+    devices.setTS2(HIGH, LOW, LOW);
+    devices.gatesUp();
+
+    if (devices.areGatesUp())
+    {
+      devices.enableWarningLights(false);
+    }
+  }
+
   /**
    * H E A R T B E A T   D I A G N O S T I C 
-   **/
+   **
   if ( millis() > nextUpdate ) {
     digitalWrite(LED_BUILTIN, HIGH);
 
     if (!isConnectedMCP23017()) {
       devices.printLCD(5, "MCP23017 ERROR");
     }
-
-    if ( devices.isTripped(1) ) {
-      devices.setTS1(LOW, LOW, HIGH);
-      devices.setTS2(LOW, LOW, HIGH);
-      devices.enableWarningLights(true);
-    } else {
-      devices.setTS1(HIGH, LOW, LOW);
-      devices.setTS2(HIGH, LOW, LOW);
-      devices.enableWarningLights(false);
-    }
     nextUpdate = millis() + heartbeatDelay;
     digitalWrite(LED_BUILTIN, LOW);
   }
-  
+  */
 }

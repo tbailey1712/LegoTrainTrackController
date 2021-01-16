@@ -3,6 +3,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "Adafruit_MCP23017.h"
+#include <Adafruit_MotorShield.h>
 
 #include "devices.h"
 
@@ -21,11 +22,18 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
+#define DX_DISTANCE 10
+#define WL_ON_TIME 800
+
 // 0x3c for display
+// 0x60 for Motor Feather
 
 Devices::Devices() 
-    : dx1(DX1_TRIGGER, DX1_ECHO), 
-      display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET)
+    : sensorDX1(DX1_TRIGGER, DX1_ECHO), 
+      sensorDX2(DX2_TRIGGER, DX2_ECHO), 
+      sensorDX3(DX3_TRIGGER, DX3_ECHO), 
+      display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET),
+      AFMS()
 {
 }
 
@@ -40,7 +48,14 @@ void Devices::allLampsOff()
 void Devices::setup()
 {
     pinMode(LED_BUILTIN, OUTPUT); 
-
+    
+    myMotor = AFMS.getStepper(200, 1);
+    AFMS.begin();  // create with the default frequency 1.6KHz
+    myMotor->setSpeed(10);
+    myMotor->step(50, BACKWARD, SINGLE);  // BACK = clockwise, 50 = qtr
+    myMotor->step(50, FORWARD, SINGLE);  
+    //myMotor->release();
+  
     mcp.begin();
 
     // TS1
@@ -74,12 +89,19 @@ void Devices::setup()
     enableWarningLights(false);
 }
 
+void Devices::readDXSensors()
+{
+    dx1 = sensorDX1.read(CM);    
+    //dx2 = sensorDX2.read(CM);    
+    //dx3 = sensorDX2.read(CM);        
+}
+
 boolean Devices::isTripped(uint8_t sensor)
 {
     boolean ret = false;
     switch(sensor) {
         case 1:
-            ret = (dx1.read(CM) <= 10);
+            ret = (dx1 <= DX_DISTANCE);
     }
     return ret;
 }
@@ -131,38 +153,84 @@ void Devices::lampTest()
 void Devices::enableWarningLights(boolean flag)
 {
   if (flag && !flashWarningLights) {
-    wlLeftOn = millis();
-    wlRightOn = millis() + wlOnTime;
-    //wlOnTime = 1000;   
+    wlStart = millis();
     printLCD(4, "Warning Lights On"); 
-    flashWarningLights = flag;
+    flashWarningLights = true;
   } 
   if (!flag && flashWarningLights) {
     clearLCD(4); 
     mcp.digitalWrite(6, LOW);
     mcp.digitalWrite(7, LOW);
-    flashWarningLights = flag;
+    flashWarningLights = false;
   }
 }
 
-void Devices::showWarningLights()
+void Devices::checkWarningLights()
 {
   if (flashWarningLights) {
-    if (millis() >= wlLeftOn) {
-      mcp.digitalWrite(6, HIGH);
+    wlTime = millis() - wlStart;
+    if (wlTime > (WL_ON_TIME * 2) ) 
+    {
+      wlStart = millis();
     }
-    if (millis() >= (wlLeftOn + wlOnTime) ) {
+    else if (wlTime > WL_ON_TIME) 
+    {
       mcp.digitalWrite(6, LOW);
-      wlLeftOn = millis() + wlOnTime;
-    }
-    if (millis() >= wlRightOn) {
       mcp.digitalWrite(7, HIGH);
     }
-    if (millis() >= (wlRightOn + wlOnTime) ) {
+    else 
+    {
+      mcp.digitalWrite(6, HIGH);
       mcp.digitalWrite(7, LOW);
-      wlRightOn = millis() + wlOnTime;
     }
   }
+}
+
+boolean Devices::areGatesDown()
+{
+    return (gate1Position == 50);
+}
+
+boolean Devices::areGatesUp()
+{
+    return (gate1Position == 0);
+}
+
+void Devices::checkGates()
+{ 
+    // 0 is UP, 50 is down
+    if (lowerGates)
+    {
+        if (gate1Position < 50)
+        {
+            myMotor->step(1, BACKWARD, SINGLE);  // BACK = clockwise, 50 = qtr, down
+            gate1Position++;
+        }
+        if (gate1Position == 50) {
+            //myMotor->release();        
+        }
+    }
+    else 
+    {
+        if (gate1Position > 0) 
+        {
+            myMotor->step(1, FORWARD, SINGLE);  
+            gate1Position--;
+        }
+        if (gate1Position == 0) {
+            //myMotor->release();        
+        }
+    }
+}
+
+void Devices::gatesDown()
+{
+    lowerGates = true;
+}
+
+void Devices::gatesUp()
+{
+    lowerGates = false;
 }
 
 void Devices::startupLCD() 
