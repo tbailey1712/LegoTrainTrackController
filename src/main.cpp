@@ -22,7 +22,7 @@
  *  - Switch forces gates down
  *  - Header icons for WiFi and <-o->
  *  - DX Sensor State filled circle
- *  - gates on a thread
+ *  - Prevent dupe message on LCD
  * */
 
 /*******  GPIO Pin Definitions *******/

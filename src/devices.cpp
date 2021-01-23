@@ -3,9 +3,11 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "Adafruit_MCP23017.h"
+#include <AccelStepper.h>
 #include <Adafruit_MotorShield.h>
 
 #include "devices.h"
+//#include "iot_iconset_16x16.h"
 
 #define DX1_ECHO 25
 #define DX1_TRIGGER 26
@@ -13,6 +15,9 @@
 #define DX2_TRIGGER 32
 #define DX3_ECHO    34
 #define DX3_TRIGGER 14
+
+#define DX_GAP_DELAY 2000
+
 #define LED_BUILTIN 2
 #define SERVO_PIN   27
 
@@ -25,15 +30,29 @@
 #define DX_DISTANCE 10
 #define WL_ON_TIME 800
 
+
+
 // 0x3c for display
 // 0x60 for Motor Feather
+
+Adafruit_MotorShield motorShield(0x60); // Default address, no jumpers
+Adafruit_StepperMotor *gateStepper1 = motorShield.getStepper(200, 1);
+
+void moveGate1Forward() {  
+  gateStepper1->onestep(FORWARD, DOUBLE);
+}
+
+void moveGate1Backward() {  
+  gateStepper1->onestep(BACKWARD, DOUBLE);
+}
+
+AccelStepper gate1(moveGate1Forward, moveGate1Backward);
 
 Devices::Devices() 
     : sensorDX1(DX1_TRIGGER, DX1_ECHO), 
       sensorDX2(DX2_TRIGGER, DX2_ECHO), 
       sensorDX3(DX3_TRIGGER, DX3_ECHO), 
-      display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET),
-      AFMS()
+      display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET)
 {
 }
 
@@ -49,12 +68,11 @@ void Devices::setup()
 {
     pinMode(LED_BUILTIN, OUTPUT); 
     
-    myMotor = AFMS.getStepper(200, 1);
-    AFMS.begin();  // create with the default frequency 1.6KHz
-    myMotor->setSpeed(10);
-    myMotor->step(50, BACKWARD, SINGLE);  // BACK = clockwise, 50 = qtr
-    myMotor->step(50, FORWARD, SINGLE);  
-    //myMotor->release();
+    motorShield.begin();
+    gate1.setMaxSpeed(500.0);
+    gate1.setSpeed(500.0);
+    gate1.setAcceleration(1000.0);
+    gate1.run();
   
     mcp.begin();
 
@@ -81,6 +99,7 @@ void Devices::setup()
      // DX1
     pinMode(DX1_TRIGGER, OUTPUT);
     pinMode(DX1_ECHO, INPUT);
+    dx1TrippedAt = -DX_GAP_DELAY;
   
     lampTest();
     clearLCD(2);
@@ -91,19 +110,31 @@ void Devices::setup()
 
 void Devices::readDXSensors()
 {
-    dx1 = sensorDX1.read(CM);    
     //dx2 = sensorDX2.read(CM);    
-    //dx3 = sensorDX2.read(CM);        
+    //dx3 = sensorDX2.read(CM); 
+
+    if (millis() > (dx1TrippedAt + DX_GAP_DELAY)) 
+    {
+        dx1 = sensorDX1.read(CM);    
+        if (dx1 <= DX_DISTANCE) 
+        {
+            dx1Tripped = true;
+            dx1TrippedAt = millis();
+        }
+        else {
+            dx1Tripped = false;
+        }
+
+    }       
 }
 
 boolean Devices::isTripped(uint8_t sensor)
 {
-    boolean ret = false;
     switch(sensor) {
         case 1:
-            ret = (dx1 <= DX_DISTANCE);
+            return dx1Tripped;
     }
-    return ret;
+    return false;
 }
 void Devices::setTS1(uint8_t red, uint8_t yellow, uint8_t green)
 {
@@ -121,7 +152,7 @@ void Devices::setTS2(uint8_t red, uint8_t yellow, uint8_t green)
 
 void Devices::lampTest() 
 {
-  long lampDelay = 750;
+  long lampDelay = 500;
 
   allLampsOff();
   printLCD(2, "    Testing Lamps    ");
@@ -188,37 +219,38 @@ void Devices::checkWarningLights()
 
 boolean Devices::areGatesDown()
 {
-    return (gate1Position == 50);
+    return (gate1.currentPosition() == 50);
 }
 
 boolean Devices::areGatesUp()
 {
-    return (gate1Position == 0);
+    return (gate1.currentPosition() == 0);
 }
 
 void Devices::checkGates()
 { 
+    gate1.run();
+    long gate1pos = gate1.currentPosition();
+    // gate1position is a private var
+
     // 0 is UP, 50 is down
-    if (lowerGates)
-    {
-        if (gate1Position < 50)
-        {
-            myMotor->step(1, BACKWARD, SINGLE);  // BACK = clockwise, 50 = qtr, down
-            gate1Position++;
+    if (lowerGates) {        
+
+        if (gate1pos < 50) {            
+            printLCD(3, "Lowering Gates");
+            gate1.moveTo(gate1pos+1);
         }
-        if (gate1Position == 50) {
-            //myMotor->release();        
+        if (gate1pos == 50) {
+            clearLCD(3);
         }
     }
-    else 
-    {
-        if (gate1Position > 0) 
-        {
-            myMotor->step(1, FORWARD, SINGLE);  
-            gate1Position--;
+    else {
+        if (gate1pos > 0) {
+            printLCD(3, "Raising Gates");
+            gate1.moveTo(gate1pos-1);            
         }
-        if (gate1Position == 0) {
-            //myMotor->release();        
+        if (gate1pos == 0) {
+            clearLCD(3);
         }
     }
 }
@@ -239,7 +271,8 @@ void Devices::startupLCD()
   display.setTextSize(1);             // Normal 1:1 pixel scale
   display.setTextColor(WHITE);        // Draw white text
   display.setCursor(0,0);             // Start at top-left corner
-  display.println("Lego Train Controller");
+  display.drawBitmap(0, 0, wifi1_icon16x16, 16, 16, 1);
+  display.println("    McDuck Rail");
   display.drawLine(0, 12, display.width()-1, 12, WHITE);
   display.drawLine(0, 63, display.width()-1, 63, WHITE);
 
