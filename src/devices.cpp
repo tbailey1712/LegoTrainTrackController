@@ -10,14 +10,16 @@
 #include "devices.h"
 //#include "iot_iconset_16x16.h"
 
-#define DX1_ECHO 25
-#define DX1_TRIGGER 26
-#define DX2_ECHO    33
-#define DX2_TRIGGER 32
-#define DX3_ECHO    34
-#define DX3_TRIGGER 14
+#define LED_TS1_RED     0
+#define LED_TS1_YELLOW  1
+#define LED_TS1_GREEN   2
 
-#define DX_GAP_DELAY 500
+#define LED_TS2_RED     3
+#define LED_TS2_YELLOW  4
+#define LED_TS2_GREEN   5
+
+#define LED_WL_LEFT 6
+#define LED_WL_RIGHT 7
 
 #define LED_BUILTIN 2
 #define SERVO_PIN   27
@@ -28,42 +30,21 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
-#define DX_DISTANCE 4
 #define WL_ON_TIME 800
 
 static const char* LOGTAG = "LTC-Devices";
-String line1 = "", line2 = "", line3 = "", line4="", line5 = "";
 
 // 0x3c for display
 // 0x60 for Motor Feather
 
 Adafruit_MotorShield motorShield(0x60); // Default address, no jumpers
 Adafruit_StepperMotor *gateStepper1 = motorShield.getStepper(200, 1);
-
-void moveGate1Forward() {  
-  gateStepper1->onestep(FORWARD, DOUBLE);
-}
-
-void moveGate1Backward() {  
-  gateStepper1->onestep(BACKWARD, DOUBLE);
-}
-
 AccelStepper gate1(moveGate1Forward, moveGate1Backward);
 
 Devices::Devices() 
-    : sensorDX1(DX1_TRIGGER, DX1_ECHO), 
-      sensorDX2(DX2_TRIGGER, DX2_ECHO), 
-      sensorDX3(DX3_TRIGGER, DX3_ECHO), 
-      display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET)
+      : display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET),
+        dxSensors()
 {
-}
-
-void Devices::allLampsOff()
-{
-  mcp.digitalWrite(6, LOW);
-  mcp.digitalWrite(7, LOW);
-  setTS1(OFF);
-  setTS2(OFF);
 }
 
 void Devices::setup()
@@ -82,16 +63,16 @@ void Devices::setup()
     ESP_LOGI(LOGTAG, "MCP I/O Expander Initialized");
 
     // TS1
-    mcp.pinMode(0, OUTPUT);
-    mcp.pinMode(1, OUTPUT);
-    mcp.pinMode(2, OUTPUT);
+    mcp.pinMode(LED_TS1_RED, OUTPUT);
+    mcp.pinMode(LED_TS1_YELLOW, OUTPUT);
+    mcp.pinMode(LED_TS1_GREEN, OUTPUT);
     // TS2
-    mcp.pinMode(3, OUTPUT);
-    mcp.pinMode(4, OUTPUT);
-    mcp.pinMode(5, OUTPUT);
+    mcp.pinMode(LED_TS2_RED, OUTPUT);
+    mcp.pinMode(LED_TS2_YELLOW, OUTPUT);
+    mcp.pinMode(LED_TS2_GREEN, OUTPUT);
     // WL
-    mcp.pinMode(6, OUTPUT);
-    mcp.pinMode(7, OUTPUT);    
+    mcp.pinMode(LED_WL_LEFT, OUTPUT);
+    mcp.pinMode(LED_WL_RIGHT, OUTPUT);    
 
     if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
         Serial.println(F("SSD1306 allocation failed"));
@@ -100,11 +81,6 @@ void Devices::setup()
     display.display();
     display.clearDisplay();
     startupLCD();
-
-     // DX1
-    pinMode(DX1_TRIGGER, OUTPUT);
-    pinMode(DX1_ECHO, INPUT);
-    dx1TrippedAt = -DX_GAP_DELAY;
   
     lampTest();
     clearLCD(2);
@@ -117,114 +93,37 @@ void Devices::setup()
 
 void Devices::readDXSensors()
 {
-  dx1 = sensorDX1.read(CM);    
-  if (dx1 <= DX_DISTANCE) 
-  {
-    dx1TripWait = true;
-    if (dx1TrippedAt == 0) {
-      dx1TrippedAt = millis();
-    }
-    if (millis() > dx1TrippedAt + DX_GAP_DELAY) {
-      dx1Tripped = true;
-    }
-  }
-  else 
-  {
-    dx1TripWait = false;
-    dx1TrippedAt = 0;
-    dx1Tripped = false;
-  }
-  
-  dx2 = sensorDX2.read(CM);    
-  if (dx2 <= DX_DISTANCE) 
-  {
-    dx2TripWait = true;
-    if (dx2TrippedAt == 0) {
-      dx2TrippedAt = millis();
-    }
-    if (millis() > dx2TrippedAt + DX_GAP_DELAY) {
-      dx2Tripped = true;
-    }
-  }
-  else 
-  {
-    dx2TripWait = false;
-    dx2TrippedAt = 0;
-    dx2Tripped = false;
-  }
-
-  dx3 = sensorDX3.read(CM);    
-  if (dx3 <= DX_DISTANCE) 
-  {
-    dx3TripWait = true;
-    if (dx3TrippedAt == 0) {
-      dx3TrippedAt = millis();
-    }
-    if (millis() > dx3TrippedAt + DX_GAP_DELAY) {
-      dx3Tripped = true;
-    }
-  }
-  else 
-  {
-    dx3TripWait = false;
-    dx3TrippedAt = 0;
-    dx3Tripped = false;
-  }
-
-    String status = "DX1 ";
-    if (dx1Tripped) {
-      status += "ON DX2 ";
-    } else {
-      status += "   DX2 ";
-    }
-    if (dx2Tripped) {
-      status += "ON DX3 ";
-    } else {
-      status += "   DX3 ";
-    }
-    if (dx3Tripped) {
-      status += "ON";
-    } else {
-      status += "  ";
-    }
-    printLCD(2, status);
+  String status = dxSensors.readDXSensors();
+  printLCD(2, status);
 }
 
 boolean Devices::isTripped(uint8_t sensor)
 {
-    switch(sensor) {
-        case 1:
-            return dx1Tripped;
-        case 2:
-            return dx2Tripped;
-        case 3:
-            return dx3Tripped;
-        default:
-            return false;
-    }
+  return dxSensors.isTripped(sensor);
 }
+
 void Devices::setTS1(uint8_t color)
 {
     switch(color) {
       case RED:
-        mcp.digitalWrite(0, HIGH);
-        mcp.digitalWrite(1, LOW);
-        mcp.digitalWrite(2, LOW);
+        mcp.digitalWrite(LED_TS1_RED, HIGH);
+        mcp.digitalWrite(LED_TS1_YELLOW, LOW);
+        mcp.digitalWrite(LED_TS1_GREEN, LOW);
         break;
       case YELLOW:
-        mcp.digitalWrite(0, LOW);
-        mcp.digitalWrite(1, HIGH);
-        mcp.digitalWrite(2, LOW);
+        mcp.digitalWrite(LED_TS1_RED, LOW);
+        mcp.digitalWrite(LED_TS1_YELLOW, HIGH);
+        mcp.digitalWrite(LED_TS1_GREEN, LOW);
         break;
       case GREEN:
-        mcp.digitalWrite(0, LOW);
-        mcp.digitalWrite(1, LOW);
-        mcp.digitalWrite(2, HIGH);
+        mcp.digitalWrite(LED_TS1_RED, LOW);
+        mcp.digitalWrite(LED_TS1_YELLOW, LOW);
+        mcp.digitalWrite(LED_TS1_GREEN, HIGH);
         break;
       case OFF:
-        mcp.digitalWrite(0, LOW);
-        mcp.digitalWrite(1, LOW);
-        mcp.digitalWrite(2, LOW);
+        mcp.digitalWrite(LED_TS1_RED, LOW);
+        mcp.digitalWrite(LED_TS1_YELLOW, LOW);
+        mcp.digitalWrite(LED_TS1_GREEN, LOW);
         break;
     }
 }
@@ -233,27 +132,33 @@ void Devices::setTS2(uint8_t color)
 {
     switch(color) {
       case RED:
-        mcp.digitalWrite(3, HIGH);
-        mcp.digitalWrite(4, LOW);
-        mcp.digitalWrite(5, LOW);
+        mcp.digitalWrite(LED_TS2_RED, HIGH);
+        mcp.digitalWrite(LED_TS2_YELLOW, LOW);
+        mcp.digitalWrite(LED_TS2_GREEN, LOW);
         break;
       case YELLOW:
-        mcp.digitalWrite(3, LOW);
-        mcp.digitalWrite(4, HIGH);
-        mcp.digitalWrite(5, LOW);
+        mcp.digitalWrite(LED_TS2_RED, LOW);
+        mcp.digitalWrite(LED_TS2_YELLOW, HIGH);
+        mcp.digitalWrite(LED_TS2_GREEN, LOW);
         break;
       case GREEN:
-        mcp.digitalWrite(3, LOW);
-        mcp.digitalWrite(4, LOW);
-        mcp.digitalWrite(5, HIGH);
+        mcp.digitalWrite(LED_TS2_RED, LOW);
+        mcp.digitalWrite(LED_TS2_YELLOW, LOW);
+        mcp.digitalWrite(LED_TS2_GREEN, HIGH);
         break;
       case OFF:
-        mcp.digitalWrite(3, LOW);
-        mcp.digitalWrite(4, LOW);
-        mcp.digitalWrite(5, LOW);
+        mcp.digitalWrite(LED_TS2_RED, LOW);
+        mcp.digitalWrite(LED_TS2_YELLOW, LOW);
+        mcp.digitalWrite(LED_TS2_GREEN, LOW);
         break;
 
     }
+}
+
+void Devices::allLampsOff()
+{
+  setTS1(OFF);
+  setTS2(OFF);
 }
 
 void Devices::lampTest() 
@@ -280,12 +185,12 @@ void Devices::lampTest()
   delay(lampDelay);
   setTS2(OFF);
 
-  mcp.digitalWrite(6, HIGH);
+  mcp.digitalWrite(LED_WL_LEFT, HIGH);
   delay(lampDelay);
-  mcp.digitalWrite(7, HIGH);
+  mcp.digitalWrite(LED_WL_RIGHT, HIGH);
   delay(lampDelay);
-  mcp.digitalWrite(6, LOW);
-  mcp.digitalWrite(7, LOW);
+  mcp.digitalWrite(LED_WL_LEFT, LOW);
+  mcp.digitalWrite(LED_WL_RIGHT, LOW);
 
 }
 void Devices::enableWarningLights(boolean flag)
@@ -297,8 +202,8 @@ void Devices::enableWarningLights(boolean flag)
   } 
   if (!flag && flashWarningLights) {
     clearLCD(4); 
-    mcp.digitalWrite(6, LOW);
-    mcp.digitalWrite(7, LOW);
+    mcp.digitalWrite(LED_WL_LEFT, LOW);
+    mcp.digitalWrite(LED_WL_RIGHT, LOW);
     flashWarningLights = false;
   }
 }
@@ -313,15 +218,23 @@ void Devices::checkWarningLights()
     }
     else if (wlTime > WL_ON_TIME) 
     {
-      mcp.digitalWrite(6, LOW);
-      mcp.digitalWrite(7, HIGH);
+      mcp.digitalWrite(LED_WL_LEFT, LOW);
+      mcp.digitalWrite(LED_WL_RIGHT, HIGH);
     }
     else 
     {
-      mcp.digitalWrite(6, HIGH);
-      mcp.digitalWrite(7, LOW);
+      mcp.digitalWrite(LED_WL_LEFT, HIGH);
+      mcp.digitalWrite(LED_WL_RIGHT, LOW);
     }
   }
+}
+
+void moveGate1Forward() {  
+  gateStepper1->onestep(FORWARD, DOUBLE);
+}
+
+void moveGate1Backward() {  
+  gateStepper1->onestep(BACKWARD, DOUBLE);
 }
 
 boolean Devices::areGatesDown()

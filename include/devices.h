@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "Adafruit_MCP23017.h"
-#include <Ultrasonic.h>
 #include <Adafruit_MotorShield.h>
+#include "DistanceSensors.h"
 
 #ifndef devices_h
 #define devices_h
@@ -138,24 +138,19 @@ class Devices {
 
     private:
         Adafruit_MCP23017 mcp;  
-        Ultrasonic sensorDX1;
-        Ultrasonic sensorDX2; 
-        Ultrasonic sensorDX3;	
         // SH1106 is the other, Try with the library "U8g2"
         Adafruit_SSD1306 display;
 //        Adafruit_MotorShield AFMS;
 //        Adafruit_StepperMotor *myMotor;
 
+        DistanceSensors dxSensors;
         boolean flashWarningLights = false;
         unsigned long wlStart = 0;
         unsigned long wlTime = 0;
         void startupLCD();
         boolean lowerGates = false;
+        String line1 = "", line2 = "", line3 = "", line4="", line5 = "";
 
-        long dx1TrippedAt = 0, dx2TrippedAt = 0, dx3TrippedAt = 0;
-        boolean dx1Tripped = false, dx2Tripped = false, dx3Tripped = false;
-        boolean dx1TripWait = false, dx2TripWait = false, dx3TripWait = false;
-        int dx1=0, dx2=0, dx3=0;
 };
 
 #endif
