@@ -1,0 +1,1057 @@
+switch.switch_stairway_lights
+light.switch_main_hallway
+switch.switch_kitchen_main
+switch.switch_kitchen_island
+switch.switch_kitchen_cabinet
+light.switch_front_room_lights
+switch.switch_garage_lights
+switch.switch_front_porch_lights
+switch.switch_front_porch_door_light
+switch.switch_family_room_hue_lights
+light.switch_family_outer_lights
+switch.switch_family_fireplace_lights
+switch.switch_basement_stairs
+light.switch_rec_room_front
+switch.switch_basement_hallway
+switch.switch_basement_front
+switch.switch_back_yard_lights
+switch.space_heater_outlet_plug
+
+
+
+
+1:
+  - Zooz ZST10 S2 Z-Wave Plus USB Stick
+    zwave.zooz_zst10_s2_z_wave_plus_usb_stick
+  
+4:
+  - Everspring Attic Alarm Level
+    sensor.everspring_attic_alarm_level
+  
+  - Everspring Attic Alarm Type
+    sensor.everspring_attic_alarm_type
+  
+  - Temp Sensor Attic
+    sensor.everspring_attic_battery_level_2
+  
+  - Everspring Attic Humidity 2
+    sensor.everspring_attic_relative_humidity_2
+  
+  - Everspring Attic Temperature
+    sensor.everspring_attic_temperature
+  
+  - Everspring ST814 Temperature and Humidity Sensor Power
+    sensor.everspring_st814_temperature_and_humidity_sensor_power
+  
+  - Everspring ST814 Temperature and Humidity Sensor Radon Concentration
+    sensor.everspring_st814_temperature_and_humidity_sensor_radon_concentration
+  
+  - Everspring Attic Humidity
+    sensor.everspring_st814_temperature_and_humidity_sensor_relative_humidity
+  
+  - Everspring Attic
+    zwave.everspring_attic_2
+  
+5:
+  - Everspring Alex Alarm Level
+    sensor.everspring_alex_alarm_level_2
+  
+  - Everspring Alex Alarm Type
+    sensor.everspring_alex_alarm_type_2
+  
+  - Temp Sensor Alex Room
+    sensor.everspring_alex_battery_level_3
+  
+  - Everspring Alex Power
+    sensor.everspring_alex_power
+  
+  - Everspring Alex Relative Humidity
+    sensor.everspring_alex_relative_humidity_2
+  
+  - Everspring Alex Temperature
+    sensor.everspring_alex_temperature_2
+  
+  - Everspring ST814 Temperature and Humidity Sensor Direction
+    sensor.everspring_st814_temperature_and_humidity_sensor_direction
+  
+  - Everspring Alex Humidity
+    sensor.everspring_st814_temperature_and_humidity_sensor_relative_humidity_3
+  
+  - Everspring ST814 Temperature and Humidity Sensor Temperature
+    sensor.everspring_st814_temperature_and_humidity_sensor_temperature
+  
+  - Everspring ST814 Temperature and Humidity Sensor Tide Level
+    sensor.everspring_st814_temperature_and_humidity_sensor_tide_level
+  
+  - Everspring Alex
+    zwave.everspring_alex_3
+  
+6:
+  - Basement Door Outdoor Light
+    switch.jasco_products_45609_on_off_relay_switch_switch
+  
+  - Switch: Basement Outside Lights
+    zwave.jasco_products_45609_on_off_relay_switch
+  
+8:
+  - Switch: Main Hallway
+    light.switch_main_hallway_level
+  
+  - Switch: Main Hallway Zwave
+    zwave.switch_main_hallway
+  
+9:
+  - Switch: Family Outer Lights
+    light.jasco_products_12724_3_way_dimmer_switch_level
+  
+  - Switch: Family Outer Lights
+    zwave.jasco_products_12724_3_way_dimmer_switch_2
+  
+10:
+  - Switch: Family Room Hue Lights Switch
+    switch.jasco_products_45609_on_off_relay_switch_switch_7
+  
+  - Switch: Family Room Hue Lights
+    zwave.jasco_products_45609_on_off_relay_switch_3
+  
+12:
+  - Switch: Kitchen Main Switch
+    switch.jasco_products_12722_on_off_relay_switch_switch
+  
+  - Switch: Kitchen Main
+    zwave.jasco_products_12722_on_off_relay_switch_2
+  
+13:
+  - Jasco Products 45609 On/Off Relay Switch Switch
+    switch.jasco_products_45609_on_off_relay_switch_switch_3
+  
+  - Switch: Kitchen Island Switch
+    zwave.jasco_products_45609_on_off_relay_switch_6
+  
+14:
+  - Switch: Kitchen Cabinet Switch
+    switch.jasco_products_12722_on_off_relay_switch_switch_2
+  
+  - Switch: Kitchen Cabinet
+    zwave.jasco_products_12722_on_off_relay_switch_3
+  
+15:
+  - Switch: Family Fireplace Lights Switch
+    switch.jasco_products_12722_on_off_relay_switch_switch_4
+  
+  - Switch: Family Fireplace Lights
+    zwave.jasco_products_12722_on_off_relay_switch_5
+  
+16:
+  - Switch: Front Porch Door Light Switch
+    switch.jasco_products_45609_on_off_relay_switch_switch_4
+  
+  - Switch: Front Porch Door Light
+    zwave.jasco_products_45609_on_off_relay_switch_4
+  
+17:
+  - Switch: Front Porch Lights Switch
+    switch.jasco_products_45609_on_off_relay_switch_switch_5
+  
+  - Switch: Front Porch Lights
+    zwave.jasco_products_45609_on_off_relay_switch_5
+  
+18:
+  - Plug in Switch: Outdoors Switch
+    switch.plug_in_switch_outdoors_switch
+  
+  - Plug in Switch: Outdoors
+    zwave.plug_in_switch_outdoors
+  
+19:
+  - Switch: Garage Lights Switch
+    switch.jasco_products_12722_on_off_relay_switch_switch_3
+  
+  - Switch: Garage Lights
+    zwave.jasco_products_12722_on_off_relay_switch
+  
+20:
+  - Garage Side Door Lock Locked
+    lock.garage_side_door_lock_locked
+  
+  - Garage Side Door Lock Access Control
+    sensor.garage_side_door_lock_access_control
+  
+  - Garage Side Door Lock Alarm Level
+    sensor.garage_side_door_lock_alarm_level
+  
+  - Garage Side Door Lock Alarm Type
+    sensor.garage_side_door_lock_alarm_type
+  
+  - Garage Side Door Lock
+    sensor.garage_side_door_lock_battery_level
+  
+  - Garage Side Door Lock Burglar
+    sensor.garage_side_door_lock_burglar
+  
+  - Garage Side Door Lock Power Management
+    sensor.garage_side_door_lock_power_management
+  
+  - Garage Side Door Lock SourceNodeId
+    sensor.garage_side_door_lock_sourcenodeid
+  
+  - Garage Side Door Lock System
+    sensor.garage_side_door_lock_system
+  
+  - Garage Side Door Lock
+    zwave.garage_side_door_lock_2
+  
+21:
+  - Wallmote Kitchen Alarm Level
+    sensor.wallmote_kitchen_alarm_level
+  
+  - Wallmote Kitchen Alarm Type
+    sensor.wallmote_kitchen_alarm_type
+  
+  - Kitchen Remote Control
+    sensor.wallmote_kitchen_battery_level
+  
+  - Wallmote Kitchen Power Management
+    sensor.wallmote_kitchen_power_management
+  
+  - Wallmote Kitchen SourceNodeId
+    sensor.wallmote_kitchen_sourcenodeid
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_2
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_3
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_4
+  
+  - Wallmote Kitchen Switch
+    switch.wallmote_kitchen_switch_5
+  
+  - Wallmote Kitchen
+    zwave.wallmote_kitchen
+  
+22:
+  - Motion Front Porch Sensor
+    binary_sensor.motion_front_porch_sensor
+  
+  - Front Porch Motion Detector
+    sensor.ecolink_motion_sensor_battery_level
+  
+  - Motion Front Porch Alarm Level
+    sensor.motion_front_porch_alarm_level
+  
+  - Motion Front Porch Alarm Type
+    sensor.motion_front_porch_alarm_type
+  
+  - Motion Front Porch Burglar
+    sensor.motion_front_porch_burglar
+  
+  - Motion Front Porch SourceNodeId
+    sensor.motion_front_porch_sourcenodeid
+  
+  - Motion Front Porch
+    zwave.motion_front_porch
+  
+23:
+  - Switch: Back Yard Lights Switch
+    switch.jasco_products_45609_on_off_relay_switch_switch_8
+  
+  - Switch: Back Yard Lights
+    zwave.jasco_products_45609_on_off_relay_switch_8
+  
+24:
+  - Keychain Remote Sensor
+    binary_sensor.shenzhen_neo_electronics_co_ltd_sos_remote_control_sensor_2
+  
+  - Keychain Remote Alarm Level
+    sensor.shenzhen_neo_electronics_co_ltd_sos_remote_control_alarm_level_2
+  
+  - Keychain Remote Alarm Type
+    sensor.shenzhen_neo_electronics_co_ltd_sos_remote_control_alarm_type_2
+  
+  - Keychain Fob
+    sensor.shenzhen_neo_electronics_co_ltd_sos_remote_control_battery_level_2
+  
+  - Keychain Remote Emergency
+    sensor.shenzhen_neo_electronics_co_ltd_sos_remote_control_emergency
+  
+  - Keychain Remote SourceNodeId
+    sensor.shenzhen_neo_electronics_co_ltd_sos_remote_control_sourcenodeid
+  
+  - Keychain Remote
+    zwave.shenzhen_neo_electronics_co_ltd_sos_remote_control_2
+  
+25:
+  - Motion Sensor Garage Sensor
+    binary_sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_sensor
+  
+  - Shenzhen Neo Electronics Co Ltd Unknown: type=0003, id=008d Alarm Level
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_alarm_level
+  
+  - Motion Sensor Garage Alarm Type
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_alarm_type
+  
+  - Motion Sensor Garage Battery Level
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_battery_level
+  
+  - Motion Sensor Garage Burglar
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_burglar
+  
+  - Motion Sensor Garage Luminance
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_luminance
+  
+  - Motion Sensor Garage SourceNodeId
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_sourcenodeid
+  
+  - Motion Sensor Garage Temperature
+    sensor.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d_temperature
+  
+  - Motion Sensor Garage
+    zwave.shenzhen_neo_electronics_co_ltd_unknown_type_0003_id_008d
+  
+26:
+  - Switch: Front Room Lights
+    light.switch_front_room_lights_level
+  
+  - Switch: Front Room Lights
+    zwave.switch_front_room_lights
+  
+27:
+  - Ecolink Door/Window Sensor Sensor
+    binary_sensor.ecolink_door_window_sensor_sensor
+  
+  - Ecolink Door/Window Sensor Alarm Level
+    sensor.ecolink_door_window_sensor_alarm_level
+  
+  - Ecolink Door/Window Sensor Alarm Type
+    sensor.ecolink_door_window_sensor_alarm_type
+  
+  - Ecolink Door/Window Sensor Battery Level
+    sensor.ecolink_door_window_sensor_battery_level
+  
+  - Master Bedroom Patio Door SourceNodeId
+    sensor.ecolink_door_window_sensor_sourcenodeid
+  
+  - Master Bedroom Patio Door
+    sensor.master_bedroom_patio_door
+  
+  - Master Bedroom Patio Door
+    zwave.bedroom_patio_door_sensor
+  
+29:
+  - Plug1 - Master Switch Alarm Level
+    sensor.plug1_master_switch_alarm_level
+  
+  - Plug1 - Master Switch Alarm Type
+    sensor.plug1_master_switch_alarm_type
+  
+  - Plug1 - Master Switch Current
+    sensor.plug1_master_switch_current
+  
+  - Plug1 - Master Switch Energy
+    sensor.plug1_master_switch_energy_3
+  
+  - Plug1 - Master Switch Exporting
+    sensor.plug1_master_switch_exporting
+  
+  - Plug1 - Master Switch Interval
+    sensor.plug1_master_switch_interval
+  
+  - Plug1 - Master Switch Interval
+    sensor.plug1_master_switch_interval_2
+  
+  - Plug1 - Master Switch Interval
+    sensor.plug1_master_switch_interval_3
+  
+  - Plug1 - Master Switch Interval
+    sensor.plug1_master_switch_interval_4
+  
+  - Plug1 - Master Switch Watts
+    sensor.plug1_master_switch_power
+  
+  - Plug1 - Master Switch Power Management
+    sensor.plug1_master_switch_power_management
+  
+  - Plug1 - Master Switch Previous Reading
+    sensor.plug1_master_switch_previous_reading
+  
+  - Plug1 - Master Switch Previous Reading
+    sensor.plug1_master_switch_previous_reading_2
+  
+  - Plug1 - Master Switch Previous Reading
+    sensor.plug1_master_switch_previous_reading_3
+  
+  - Plug1 - Master Switch Previous Reading
+    sensor.plug1_master_switch_previous_reading_4
+  
+  - Plug1 - Master Switch SourceNodeId
+    sensor.plug1_master_switch_sourcenodeid
+  
+  - Plug1 - Master Switch Voltage
+    sensor.plug1_master_switch_voltage
+  
+  - Plug1 - Outlet A Current
+    sensor.zooz_zen25_s2_double_plug_current_2
+  
+  - Plug1 - Outlet B Current
+    sensor.zooz_zen25_s2_double_plug_current_3
+  
+  - Zooz ZEN25 S2 Double Plug Energy
+    sensor.zooz_zen25_s2_double_plug_energy
+  
+  - Zooz ZEN25 S2 Double Plug Energy
+    sensor.zooz_zen25_s2_double_plug_energy_2
+  
+  - Zooz ZEN25 S2 Double Plug Exporting
+    sensor.zooz_zen25_s2_double_plug_exporting_2
+  
+  - Zooz ZEN25 S2 Double Plug Exporting
+    sensor.zooz_zen25_s2_double_plug_exporting_3
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_10
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_11
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_15
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_5
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_6
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_7
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_8
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_9
+  
+  - Plug1 - Outlet A Watts
+    sensor.zooz_zen25_s2_double_plug_power_2
+  
+  - Zooz ZEN25 S2 Double Plug Power
+    sensor.zooz_zen25_s2_double_plug_power_3
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_10
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_11
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_15
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_5
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_6
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_7
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_8
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_9
+  
+  - Zooz ZEN25 S2 Double Plug Unknown
+    sensor.zooz_zen25_s2_double_plug_unknown
+  
+  - Zooz ZEN25 S2 Double Plug Voltage
+    sensor.zooz_zen25_s2_double_plug_voltage_2
+  
+  - Zooz ZEN25 S2 Double Plug Voltage
+    sensor.zooz_zen25_s2_double_plug_voltage_3
+  
+  - Plug1 - Master Switch Switch
+    switch.plug1_master_switch_switch_4
+  
+  - Plug1 - Outlet A Switch
+    switch.zooz_zen25_s2_double_plug_switch
+  
+  - Plug1 - Outlet B Switch
+    switch.zooz_zen25_s2_double_plug_switch_2
+  
+  - Plug1 - USB Port Active
+    switch.zooz_zen25_s2_double_plug_switch_3
+  
+  - Plug1 - Master Switch
+    zwave.plug1_master_switch
+  
+32:
+  - Plug2 - Master Switch Alarm Level
+    sensor.plug2_master_switch_alarm_level_2
+  
+  - Plug2 - Master Switch Alarm Type
+    sensor.plug2_master_switch_alarm_type_2
+  
+  - Plug2 - Master Switch Current
+    sensor.plug2_master_switch_current_4
+  
+  - Plug2 - Master Switch Energy
+    sensor.plug2_master_switch_energy_6
+  
+  - Plug2 - Master Switch Exporting
+    sensor.plug2_master_switch_exporting_4
+  
+  - Plug2 - Master Switch Interval
+    sensor.plug2_master_switch_interval_14
+  
+  - Plug2 - Master Switch Interval
+    sensor.plug2_master_switch_interval_15
+  
+  - Plug2 - Master Switch Interval
+    sensor.plug2_master_switch_interval_16
+  
+  - Plug2 - Master Switch Interval
+    sensor.plug2_master_switch_interval_17
+  
+  - Plug2 - Master Switch Power
+    sensor.plug2_master_switch_power_4
+  
+  - Plug2 - Master Switch Power Management
+    sensor.plug2_master_switch_power_management_2
+  
+  - Plug2 - Master Switch Previous Reading
+    sensor.plug2_master_switch_previous_reading_14
+  
+  - Plug2 - Master Switch Previous Reading
+    sensor.plug2_master_switch_previous_reading_15
+  
+  - Plug2 - Master Switch Previous Reading
+    sensor.plug2_master_switch_previous_reading_16
+  
+  - Plug2 - Master Switch Previous Reading
+    sensor.plug2_master_switch_previous_reading_17
+  
+  - Plug2 - Master Switch SourceNodeId
+    sensor.plug2_master_switch_sourcenodeid_2
+  
+  - Plug2 - Master Switch Voltage
+    sensor.plug2_master_switch_voltage_4
+  
+  - Zooz ZEN25 S2 Double Plug Current
+    sensor.zooz_zen25_s2_double_plug_current_5
+  
+  - Plug2 - Outlet B Current
+    sensor.zooz_zen25_s2_double_plug_current_6
+  
+  - Zooz ZEN25 S2 Double Plug Energy
+    sensor.zooz_zen25_s2_double_plug_energy_4
+  
+  - Zooz ZEN25 S2 Double Plug Energy
+    sensor.zooz_zen25_s2_double_plug_energy_5
+  
+  - Zooz ZEN25 S2 Double Plug Exporting
+    sensor.zooz_zen25_s2_double_plug_exporting_5
+  
+  - Zooz ZEN25 S2 Double Plug Exporting
+    sensor.zooz_zen25_s2_double_plug_exporting_6
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_12
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_13
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_14
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_18
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_19
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_20
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_21
+  
+  - Zooz ZEN25 S2 Double Plug Interval
+    sensor.zooz_zen25_s2_double_plug_interval_22
+  
+  - Zooz ZEN25 S2 Double Plug Power
+    sensor.zooz_zen25_s2_double_plug_power_5
+  
+  - Zooz ZEN25 S2 Double Plug Power
+    sensor.zooz_zen25_s2_double_plug_power_6
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_12
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_13
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_14
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_18
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_19
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_20
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_21
+  
+  - Zooz ZEN25 S2 Double Plug Previous Reading
+    sensor.zooz_zen25_s2_double_plug_previous_reading_22
+  
+  - Zooz ZEN25 S2 Double Plug Voltage
+    sensor.zooz_zen25_s2_double_plug_voltage_5
+  
+  - Zooz ZEN25 S2 Double Plug Voltage
+    sensor.zooz_zen25_s2_double_plug_voltage_6
+  
+  - Plug2 - Master Switch Switch
+    switch.plug2_master_switch_switch_8
+  
+  - Zooz ZEN25 S2 Double Plug Switch
+    switch.zooz_zen25_s2_double_plug_switch_10
+  
+  - Zooz ZEN25 S2 Double Plug Switch
+    switch.zooz_zen25_s2_double_plug_switch_5
+  
+  - Plug2 - Outlet B Switch
+    switch.zooz_zen25_s2_double_plug_switch_6
+  
+  - Plug2 - USB Outlet Active
+    switch.zooz_zen25_s2_double_plug_switch_7
+  
+  - Zooz ZEN25 S2 Double Plug Switch
+    switch.zooz_zen25_s2_double_plug_switch_8
+  
+  - Zooz ZEN25 S2 Double Plug Switch
+    switch.zooz_zen25_s2_double_plug_switch_9
+  
+  - Plug2 - Master Switch
+    zwave.plug2_master_switch_3
+  
+33:
+  - WallMote Office Alarm Level
+    sensor.wallmote_office_alarm_level
+  
+  - WallMote Office Alarm Type
+    sensor.wallmote_office_alarm_type
+  
+  - WallMote Office Battery Level
+    sensor.wallmote_office_battery_level
+  
+  - WallMote Office Power Management
+    sensor.wallmote_office_power_management
+  
+  - WallMote Office SourceNodeId
+    sensor.wallmote_office_sourcenodeid
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_5
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_6
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_7
+  
+  - AEON Labs ZW130 WallMote Quad Switch
+    switch.aeon_labs_zw130_wallmote_quad_switch_8
+  
+  - WallMote Office Switch
+    switch.wallmote_office_switch_9
+  
+  - WallMote Office
+    zwave.wallmote_office
+  
+34:
+  - Plug: Sump Pump Current
+    sensor.plug_sump_pump_current
+  
+  - Plug: Sump Pump Energy
+    sensor.plug_sump_pump_energy
+  
+  - Plug: Sump Pump Power
+    sensor.plug_sump_pump_power
+  
+  - Plug: Sump Pump Previous Reading
+    sensor.plug_sump_pump_previous_reading
+  
+  - Plug: Sump Pump Voltage
+    sensor.plug_sump_pump_voltage
+  
+  - Zooz ZEN15 Power Switch Previous Reading
+    sensor.zooz_zen15_power_switch_previous_reading
+  
+  - Zooz ZEN15 Power Switch Previous Reading
+    sensor.zooz_zen15_power_switch_previous_reading_2
+  
+  - Plug: Sump Pump Switch
+    switch.plug_sump_pump_switch
+  
+  - Plug: Sump Pump
+    zwave.plug_sump_pump
+  
+35:
+  - Aeotec Limited ZWA005 TriSensor Sensor
+    binary_sensor.aeotec_limited_zwa005_trisensor_sensor
+  
+  - Aeotec Limited ZWA005 TriSensor Alarm Level
+    sensor.aeotec_limited_zwa005_trisensor_alarm_level
+  
+  - Aeotec Limited ZWA005 TriSensor Alarm Type
+    sensor.aeotec_limited_zwa005_trisensor_alarm_type
+  
+  - Aeotec Limited ZWA005 TriSensor Battery Level
+    sensor.aeotec_limited_zwa005_trisensor_battery_level
+  
+  - TriSensor Front Room Burglar
+    sensor.trisensor_front_room_burglar
+  
+  - TriSensor Front Room Luminance
+    sensor.trisensor_front_room_luminance
+  
+  - TriSensor Front Room SourceNodeId
+    sensor.trisensor_front_room_sourcenodeid
+  
+  - TriSensor Front Room Temperature
+    sensor.trisensor_front_room_temperature
+  
+  - TriSensor Front Room
+    zwave.trisensor_front_room
+  
+38:
+  - Switch: Basement Stairs Switch
+    switch.switch_basement_stairs_switch
+  
+  - Switch: Basement Stairs
+    zwave.switch_basement_stairs
+  
+39:
+  - Switch: Basement Hallway Switch
+    switch.switch_basement_hallway_switch
+  
+  - Switch: Basement Hallway
+    zwave.switch_basement_hallway
+  
+41:
+  - Switch: Stairway Lights Switch
+    switch.switch_stairway_lights_switch
+  
+  - Switch: Stairway Lights
+    zwave.switch_stairway_lights
+  
+42:
+  - Multisensor Basement Sensor
+    binary_sensor.zooz_zse40_4_in_1_sensor_sensor
+  
+  - Zooz ZSE40 4-in-1 sensor Alarm Level
+    sensor.zooz_zse40_4_in_1_sensor_alarm_level
+  
+  - Zooz ZSE40 4-in-1 sensor Alarm Type
+    sensor.zooz_zse40_4_in_1_sensor_alarm_type
+  
+  - Multisensor Basement Appliance
+    sensor.zooz_zse40_4_in_1_sensor_appliance
+  
+  - Zooz ZSE40 4-in-1 sensor Battery Level
+    sensor.zooz_zse40_4_in_1_sensor_battery_level
+  
+  - Multisensor Basement Burglar
+    sensor.zooz_zse40_4_in_1_sensor_burglar
+  
+  - Zooz ZSE40 4-in-1 sensor Direction
+    sensor.zooz_zse40_4_in_1_sensor_direction
+  
+  - Multisensor Basement Emergency
+    sensor.zooz_zse40_4_in_1_sensor_emergency
+  
+  - Zooz ZSE40 4-in-1 sensor General
+    sensor.zooz_zse40_4_in_1_sensor_general
+  
+  - Multisensor Basement HomeHealth
+    sensor.zooz_zse40_4_in_1_sensor_homehealth
+  
+  - Multisensor Basement Luminance
+    sensor.zooz_zse40_4_in_1_sensor_luminance
+  
+  - Multisensor Basement Relative Humidity
+    sensor.zooz_zse40_4_in_1_sensor_relative_humidity
+  
+  - Multisensor Basement SourceNodeId
+    sensor.zooz_zse40_4_in_1_sensor_sourcenodeid
+  
+  - Multisensor Basement System
+    sensor.zooz_zse40_4_in_1_sensor_system
+  
+  - Multisensor Basement Temperature
+    sensor.zooz_zse40_4_in_1_sensor_temperature
+  
+  - Multisensor Basement
+    zwave.zooz_zse40_4_in_1_sensor
+  
+43:
+  - Window Basement South 4B Sensor
+    binary_sensor.ecolink_door_window_sensor_sensor_2
+  
+  - Window Basement South 4B Access Control
+    sensor.ecolink_door_window_sensor_access_control
+  
+  - Window Basement South 4B Alarm Level
+    sensor.ecolink_door_window_sensor_alarm_level_2
+  
+  - Window Basement South 4B Alarm Type
+    sensor.ecolink_door_window_sensor_alarm_type_2
+  
+  - Window Basement South 4B Battery Level
+    sensor.ecolink_door_window_sensor_battery_level_2
+  
+  - Window Basement South 4B Burglar
+    sensor.ecolink_door_window_sensor_burglar
+  
+  - Window Basement South 4B Power Management
+    sensor.ecolink_door_window_sensor_power_management
+  
+  - Window Basement South 4B SourceNodeId
+    sensor.ecolink_door_window_sensor_sourcenodeid_2
+  
+  - Window Basement South 4B
+    zwave.ecolink_door_window_sensor
+  
+44:
+  - Window Basement South 5B Sensor
+    binary_sensor.ecolink_door_window_sensor_sensor_3
+  
+  - Window Basement South 5B Access Control
+    sensor.ecolink_door_window_sensor_access_control_2
+  
+  - Window Basement South 5B Alarm Level
+    sensor.ecolink_door_window_sensor_alarm_level_3
+  
+  - Window Basement South 5B Alarm Type
+    sensor.ecolink_door_window_sensor_alarm_type_3
+  
+  - Window Basement South 5B Battery Level
+    sensor.ecolink_door_window_sensor_battery_level_3
+  
+  - Window Basement South 5B Burglar
+    sensor.ecolink_door_window_sensor_burglar_2
+  
+  - Window Basement South 5B Power Management
+    sensor.ecolink_door_window_sensor_power_management_2
+  
+  - Window Basement South 5B SourceNodeId
+    sensor.ecolink_door_window_sensor_sourcenodeid_3
+  
+  - Window Basement South 5B
+    zwave.ecolink_door_window_sensor_2
+  
+46:
+  - Window Basement Office 2 Sensor
+    binary_sensor.ecolink_door_window_sensor_sensor_4
+  
+  - Window Basement Office 2 Access Control
+    sensor.ecolink_door_window_sensor_access_control_3
+  
+  - Window Basement Office 2 Alarm Level
+    sensor.ecolink_door_window_sensor_alarm_level_4
+  
+  - Window Basement Office 2 Alarm Type
+    sensor.ecolink_door_window_sensor_alarm_type_4
+  
+  - Window Basement Office 2 Battery Level
+    sensor.ecolink_door_window_sensor_battery_level_4
+  
+  - Window Basement Office 2 Burglar
+    sensor.ecolink_door_window_sensor_burglar_3
+  
+  - Window Basement Office 2 Power Management
+    sensor.ecolink_door_window_sensor_power_management_3
+  
+  - Window Basement Office 2 SourceNodeId
+    sensor.ecolink_door_window_sensor_sourcenodeid_4
+  
+  - Window Basement Office 2
+    zwave.ecolink_door_window_sensor_3
+  
+50:
+  - Switch: Basement Middle Level
+    light.switch_basement_middle_level
+  
+  - Switch: Basement Middle
+    zwave.switch_basement_middle
+  
+51:
+  - Switch: Basement Front Level
+    light.switch_basement_front_level_2
+  
+  - Switch: Basement Front
+    zwave.switch_basement_front_2
+  
+53:
+  - AEON Labs DSB05 Multisensor Sensor
+    binary_sensor.aeon_labs_dsb05_multisensor_sensor
+  
+  - AEON Labs DSB05 Multisensor Battery Level
+    sensor.aeon_labs_dsb05_multisensor_battery_level
+  
+  - AEON Labs DSB05 Multisensor Luminance
+    sensor.aeon_labs_dsb05_multisensor_luminance
+  
+  - AEON Labs DSB05 Multisensor Relative Humidity
+    sensor.aeon_labs_dsb05_multisensor_relative_humidity
+  
+  - AEON Labs DSB05 Multisensor Temperature
+    sensor.aeon_labs_dsb05_multisensor_temperature
+  
+  - AEON Labs DSB05 Multisensor
+    zwave.aeon_labs_dsb05_multisensor_2
+  
+54:
+  - Window Basement South 3A Sensor
+    binary_sensor.window_basement_south_3a_sensor_5
+  
+  - Window Basement South 3A Access Control
+    sensor.window_basement_south_3a_access_control_4
+  
+  - Window Basement South 3A Alarm Level
+    sensor.window_basement_south_3a_alarm_level_5
+  
+  - Window Basement South 3A Alarm Type
+    sensor.window_basement_south_3a_alarm_type_5
+  
+  - Window Basement South 3A Battery Level
+    sensor.window_basement_south_3a_battery_level_5
+  
+  - Window Basement South 3A Burglar
+    sensor.window_basement_south_3a_burglar_4
+  
+  - Window Basement South 3A Power Management
+    sensor.window_basement_south_3a_power_management_4
+  
+  - Window Basement South 3A SourceNodeId
+    sensor.window_basement_south_3a_sourcenodeid_5
+  
+  - Window Basement South 3A
+    zwave.window_basement_south_3a_4
+  
+55:
+  - Window Basement Office 1 Sensor
+    binary_sensor.window_basement_office_1_sensor_5
+  
+  - Window Basement Office 1 Access Control
+    sensor.window_basement_office_1_access_control_4
+  
+  - Window Basement Office 1 Alarm Level
+    sensor.window_basement_office_1_alarm_level_5
+  
+  - Window Basement Office 1 Alarm Type
+    sensor.window_basement_office_1_alarm_type_5
+  
+  - Window Basement Office 1 Battery Level
+    sensor.window_basement_office_1_battery_level_5
+  
+  - Window Basement Office 1 Burglar
+    sensor.window_basement_office_1_burglar_4
+  
+  - Window Basement Office 1 Power Management
+    sensor.window_basement_office_1_power_management_4
+  
+  - Window Basement Office 1 SourceNodeId
+    sensor.window_basement_office_1_sourcenodeid_5
+  
+  - Window Basement Office 1
+    zwave.window_basement_office_1_4
+  
+56:
+  - Window Basement South 4A Sensor
+    binary_sensor.window_basement_south_4a_sensor_5
+  
+  - Window Basement South 4A Access Control
+    sensor.window_basement_south_4a_access_control_4
+  
+  - Window Basement South 4A Alarm Level
+    sensor.window_basement_south_4a_alarm_level_5
+  
+  - Window Basement South 4A Alarm Type
+    sensor.window_basement_south_4a_alarm_type_5
+  
+  - Window Basement South 4A Battery Level
+    sensor.window_basement_south_4a_battery_level_5
+  
+  - Window Basement South 4A Burglar
+    sensor.window_basement_south_4a_burglar_4
+  
+  - Window Basement South 4A Power Management
+    sensor.window_basement_south_4a_power_management_4
+  
+  - Window Basement South 4A SourceNodeId
+    sensor.window_basement_south_4a_sourcenodeid_5
+  
+  - Window Basement South 4A
+    zwave.window_basement_south_4a_4
+  
+57:
+  - Plug Schlage Dimmer Outlet Level
+    light.plug_schlage_dimmer_outlet_level
+  
+  - Plug Schlage Dimmer Outlet
+    zwave.plug_schlage_dimmer_outlet
+  
+58:
+  - Plug Nortek Outlet 1
+    switch.plug_nortek_outlet_1
+  
+  - Plug Nortek Outlet 1
+    zwave.plug_nortek_outlet_1
+  
+59:
+  - Plug Nortek Outlet 2 Switch
+    switch.plug_nortek_outlet_2
+  
+  - Plug Nortek Outlet 2
+    zwave.plug_nortek_2
+  
+60:
+  - Plug Nortek Outlet 3 Switch
+    switch.plug_nortek_outlet_3
+  
+  - Plug Nortek Outlet 3
+    zwave.linear_nortek_security_control_llc_ps15z_2_plug_in_appliance_module
+  
+61:
+  - Space Heater Outlet Plug Current
+    sensor.space_heater_outlet_plug_current
+  
+  - Space Heater Outlet Plug Energy
+    sensor.space_heater_outlet_plug_energy
+  
+  - Space Heater Outlet Plug Power
+    sensor.space_heater_outlet_plug_power
+  
+  - Space Heater Outlet Plug Previous Reading
+    sensor.space_heater_outlet_plug_previous_reading
+  
+  - Space Heater Outlet Plug Voltage
+    sensor.space_heater_outlet_plug_voltage
+  
+  - Space Heater Outlet Plug Switch
+    switch.space_heater_outlet_plug_switch
+  
+  - Space Heater Outlet Plug
+    zwave.space_heater_outlet_plug

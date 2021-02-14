@@ -5,6 +5,7 @@
 #include "Adafruit_MCP23017.h"
 #include <AccelStepper.h>
 #include <Adafruit_MotorShield.h>
+#include "esp_log.h"
 
 #include "devices.h"
 //#include "iot_iconset_16x16.h"
@@ -16,7 +17,7 @@
 #define DX3_ECHO    34
 #define DX3_TRIGGER 14
 
-#define DX_GAP_DELAY 2000
+#define DX_GAP_DELAY 500
 
 #define LED_BUILTIN 2
 #define SERVO_PIN   27
@@ -27,10 +28,11 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
-#define DX_DISTANCE 10
+#define DX_DISTANCE 4
 #define WL_ON_TIME 800
 
-
+static const char* LOGTAG = "LTC-Devices";
+String line1 = "", line2 = "", line3 = "", line4="", line5 = "";
 
 // 0x3c for display
 // 0x60 for Motor Feather
@@ -60,12 +62,13 @@ void Devices::allLampsOff()
 {
   mcp.digitalWrite(6, LOW);
   mcp.digitalWrite(7, LOW);
-  setTS1(LOW,LOW,LOW);
-  setTS2(LOW,LOW,LOW);
+  setTS1(OFF);
+  setTS2(OFF);
 }
 
 void Devices::setup()
 {
+    ESP_LOGI(LOGTAG, "Beginning Device Setup");
     pinMode(LED_BUILTIN, OUTPUT); 
     
     motorShield.begin();
@@ -73,8 +76,10 @@ void Devices::setup()
     gate1.setSpeed(500.0);
     gate1.setAcceleration(1000.0);
     gate1.run();
-  
+    ESP_LOGI(LOGTAG, "Motor Shield Initialized");
+
     mcp.begin();
+    ESP_LOGI(LOGTAG, "MCP I/O Expander Initialized");
 
     // TS1
     mcp.pinMode(0, OUTPUT);
@@ -105,27 +110,84 @@ void Devices::setup()
     clearLCD(2);
     clearLCD(3);
     clearLCD(4);
+
     enableWarningLights(false);
+    ESP_LOGI(LOGTAG, "Train Controller System Ready");
 }
 
 void Devices::readDXSensors()
 {
-    //dx2 = sensorDX2.read(CM);    
-    //dx3 = sensorDX2.read(CM); 
+  dx1 = sensorDX1.read(CM);    
+  if (dx1 <= DX_DISTANCE) 
+  {
+    dx1TripWait = true;
+    if (dx1TrippedAt == 0) {
+      dx1TrippedAt = millis();
+    }
+    if (millis() > dx1TrippedAt + DX_GAP_DELAY) {
+      dx1Tripped = true;
+    }
+  }
+  else 
+  {
+    dx1TripWait = false;
+    dx1TrippedAt = 0;
+    dx1Tripped = false;
+  }
+  
+  dx2 = sensorDX2.read(CM);    
+  if (dx2 <= DX_DISTANCE) 
+  {
+    dx2TripWait = true;
+    if (dx2TrippedAt == 0) {
+      dx2TrippedAt = millis();
+    }
+    if (millis() > dx2TrippedAt + DX_GAP_DELAY) {
+      dx2Tripped = true;
+    }
+  }
+  else 
+  {
+    dx2TripWait = false;
+    dx2TrippedAt = 0;
+    dx2Tripped = false;
+  }
 
-    if (millis() > (dx1TrippedAt + DX_GAP_DELAY)) 
-    {
-        dx1 = sensorDX1.read(CM);    
-        if (dx1 <= DX_DISTANCE) 
-        {
-            dx1Tripped = true;
-            dx1TrippedAt = millis();
-        }
-        else {
-            dx1Tripped = false;
-        }
+  dx3 = sensorDX3.read(CM);    
+  if (dx3 <= DX_DISTANCE) 
+  {
+    dx3TripWait = true;
+    if (dx3TrippedAt == 0) {
+      dx3TrippedAt = millis();
+    }
+    if (millis() > dx3TrippedAt + DX_GAP_DELAY) {
+      dx3Tripped = true;
+    }
+  }
+  else 
+  {
+    dx3TripWait = false;
+    dx3TrippedAt = 0;
+    dx3Tripped = false;
+  }
 
-    }       
+    String status = "DX1 ";
+    if (dx1Tripped) {
+      status += "ON DX2 ";
+    } else {
+      status += "   DX2 ";
+    }
+    if (dx2Tripped) {
+      status += "ON DX3 ";
+    } else {
+      status += "   DX3 ";
+    }
+    if (dx3Tripped) {
+      status += "ON";
+    } else {
+      status += "  ";
+    }
+    printLCD(2, status);
 }
 
 boolean Devices::isTripped(uint8_t sensor)
@@ -133,21 +195,65 @@ boolean Devices::isTripped(uint8_t sensor)
     switch(sensor) {
         case 1:
             return dx1Tripped;
+        case 2:
+            return dx2Tripped;
+        case 3:
+            return dx3Tripped;
+        default:
+            return false;
     }
-    return false;
 }
-void Devices::setTS1(uint8_t red, uint8_t yellow, uint8_t green)
+void Devices::setTS1(uint8_t color)
 {
-    mcp.digitalWrite(0, red);
-    mcp.digitalWrite(1, yellow);
-    mcp.digitalWrite(2, green);
+    switch(color) {
+      case RED:
+        mcp.digitalWrite(0, HIGH);
+        mcp.digitalWrite(1, LOW);
+        mcp.digitalWrite(2, LOW);
+        break;
+      case YELLOW:
+        mcp.digitalWrite(0, LOW);
+        mcp.digitalWrite(1, HIGH);
+        mcp.digitalWrite(2, LOW);
+        break;
+      case GREEN:
+        mcp.digitalWrite(0, LOW);
+        mcp.digitalWrite(1, LOW);
+        mcp.digitalWrite(2, HIGH);
+        break;
+      case OFF:
+        mcp.digitalWrite(0, LOW);
+        mcp.digitalWrite(1, LOW);
+        mcp.digitalWrite(2, LOW);
+        break;
+    }
 }
 
-void Devices::setTS2(uint8_t red, uint8_t yellow, uint8_t green)
+void Devices::setTS2(uint8_t color)
 {
-    mcp.digitalWrite(3, red);
-    mcp.digitalWrite(4, yellow);
-    mcp.digitalWrite(5, green);
+    switch(color) {
+      case RED:
+        mcp.digitalWrite(3, HIGH);
+        mcp.digitalWrite(4, LOW);
+        mcp.digitalWrite(5, LOW);
+        break;
+      case YELLOW:
+        mcp.digitalWrite(3, LOW);
+        mcp.digitalWrite(4, HIGH);
+        mcp.digitalWrite(5, LOW);
+        break;
+      case GREEN:
+        mcp.digitalWrite(3, LOW);
+        mcp.digitalWrite(4, LOW);
+        mcp.digitalWrite(5, HIGH);
+        break;
+      case OFF:
+        mcp.digitalWrite(3, LOW);
+        mcp.digitalWrite(4, LOW);
+        mcp.digitalWrite(5, LOW);
+        break;
+
+    }
 }
 
 void Devices::lampTest() 
@@ -158,19 +264,21 @@ void Devices::lampTest()
   printLCD(2, "    Testing Lamps    ");
   printLCD(3, "ABCDEFGHIJKLMNOPQRSTU");
   printLCD(5, "123456789012345678901");
-  setTS1(HIGH, LOW, LOW);
+  setTS1(RED);
   delay(lampDelay);
-  setTS1(HIGH, HIGH, LOW);
+  setTS1(YELLOW);
   delay(lampDelay);
-  setTS1(HIGH, HIGH, HIGH);
+  setTS1(GREEN);
   delay(lampDelay);
+  setTS1(OFF);
 
-  setTS2(HIGH, LOW, LOW);
+  setTS2(RED);
   delay(lampDelay);
-  setTS2(HIGH, HIGH, LOW);
+  setTS2(YELLOW);
   delay(lampDelay);
-  setTS2(HIGH, HIGH, HIGH);
+  setTS2(GREEN);
   delay(lampDelay);
+  setTS2(OFF);
 
   mcp.digitalWrite(6, HIGH);
   delay(lampDelay);
@@ -178,7 +286,6 @@ void Devices::lampTest()
   delay(lampDelay);
   mcp.digitalWrite(6, LOW);
   mcp.digitalWrite(7, LOW);
-  setTS1(LOW,LOW,LOW);
 
 }
 void Devices::enableWarningLights(boolean flag)
@@ -237,26 +344,27 @@ void Devices::checkGates()
     if (lowerGates) {        
 
         if (gate1pos < 50) {            
-            printLCD(3, "Lowering Gates");
+            printLCD(5, "Lowering Gates");
             gate1.moveTo(gate1pos+1);
         }
         if (gate1pos == 50) {
-            clearLCD(3);
+            clearLCD(5);
         }
     }
     else {
         if (gate1pos > 0) {
-            printLCD(3, "Raising Gates");
+            printLCD(5, "Raising Gates");
             gate1.moveTo(gate1pos-1);            
         }
         if (gate1pos == 0) {
-            clearLCD(3);
+            clearLCD(5);
         }
     }
 }
 
 void Devices::gatesDown()
 {
+    //enableWarningLights(true);
     lowerGates = true;
 }
 
@@ -271,8 +379,9 @@ void Devices::startupLCD()
   display.setTextSize(1);             // Normal 1:1 pixel scale
   display.setTextColor(WHITE);        // Draw white text
   display.setCursor(0,0);             // Start at top-left corner
-  display.drawBitmap(0, 0, wifi1_icon16x16, 16, 16, 1);
-  display.println("    McDuck Rail");
+  display.drawBitmap(0, 0, rail_left_icon16x16, 16, 16, 1);
+  display.drawBitmap(17, 0, rail_right_icon16x16, 16, 16, 1);
+  display.println("     McDuck Rail");
   display.drawLine(0, 12, display.width()-1, 12, WHITE);
   display.drawLine(0, 63, display.width()-1, 63, WHITE);
 
@@ -314,29 +423,45 @@ void Devices::printLCD(int line, String msg)
       display.println(msg);
       break;
     case 2:
-      clearLCD(2);
-      display.setCursor(0,16);    
-      display.setTextColor(WHITE);
-      display.println(msg);
-      display.display();
+      if (msg != line2) 
+      {
+        clearLCD(2);
+        display.setCursor(0,16);    
+        display.setTextColor(WHITE);
+        display.println(msg);
+        display.display();
+        line2 = msg;
+      }
       break;
     case 3:
-      clearLCD(3);
-      display.setCursor(0,28);    
-      display.println(msg);
-      display.display();
+      if (msg != line3)
+      {
+        clearLCD(3);
+        display.setCursor(0,28);    
+        display.println(msg);
+        display.display();
+        line3 = msg;
+      }
       break;
     case 4:
-      clearLCD(4);
-      display.setCursor(0,40);    
-      display.println(msg);
-      display.display();
+      if (msg != line4)
+      {
+        clearLCD(4);
+        display.setCursor(0,40);    
+        display.println(msg);
+        display.display();
+        line4 = msg;
+      }
       break;
     case 5:
-      clearLCD(5);
-      display.setCursor(0,52);    
-      display.println(msg);
-      display.display();
+      if (msg != line5)
+      {
+        clearLCD(5);
+        display.setCursor(0,52);    
+        display.println(msg);
+        display.display();
+        line5 = msg;
+      }
       break;
   }
 }
